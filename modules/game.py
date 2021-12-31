@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 from random import randint
 
+
 import modules.config as config
 import modules.utilities as utilities
 import modules.game as game
@@ -185,6 +186,36 @@ def findPartOfPost():
     time.sleep(1)
 
 
+def eventOpen():
+    pyautogui.press("esc")
+    time.sleep(1)
+    pyautogui.press("esc")
+    time.sleep(1)
+
+    image = pyautogui.screenshot()
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+
+    small_image = cv2.imread('img/event.png')
+    # large_image = cv2.imread('../img/screen.png')
+    large_image = image
+
+    result = cv2.matchTemplate(small_image, large_image, cv2.TM_CCOEFF_NORMED)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    print("Result ", max_val)
+    if(max_val > 0.95):
+        print("Player found")
+    w = small_image.shape[1]
+    h = small_image.shape[0]
+
+    MPx, MPy = min_loc
+
+    trows, tcols = small_image.shape[:2]
+    win32api.SetCursorPos((max_loc[0]+w-30, max_loc[1]+h-20))
+    time.sleep(2)
+    utilities.click(max_loc[0]+w-30, max_loc[1]+h-20)
+    time.sleep(2)
+
+
 def lampInPost():
     # LAMP TO TAKE FROM POST
     image = pyautogui.screenshot()
@@ -259,6 +290,9 @@ def toDoList():
 
         print("lampInPost")
         lampInPost()
+
+    print("eventOpen")
+    eventOpen()
 
     if config.INV_ITEM_USE:
         print("useInvItem")
