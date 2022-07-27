@@ -6,7 +6,7 @@ notify you with messages in a telegram
 
 ### Installation
 * install Python 3.9.6
-* cd Serenity_MultiTool
+* cd Serenity-MultiTool--master
 * pip install requirements.txt
 
 ### Setting
